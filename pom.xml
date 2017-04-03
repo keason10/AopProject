@@ -9,6 +9,7 @@
     <url>http://maven.apache.org</url>
     <properties>
         <spring.version>4.0.3.RELEASE</spring.version>
+        <spring.version.four.treee.seven>4.3.7.RELEASE</spring.version.four.treee.seven>
     </properties>
 
     <dependencies>
@@ -40,8 +41,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>4.0.3.RELEASE</version>
-            <scope>compile</scope>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -74,7 +74,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>4.3.7.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
