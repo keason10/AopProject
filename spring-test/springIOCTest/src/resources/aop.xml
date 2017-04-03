@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--use properties-->
+    <import resource="classpath:propperties-use.xml"/>
+    <bean id="appProperty"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <array>
+                <value>classpath:data-test.properties</value>
+            </array>
+        </property>
+    </bean>
+
+    <aop:aspectj-autoproxy/>
+    <aop:config>
+        <aop:aspect id="aopConfiguration" ref="aopAction">
+            <aop:pointcut id="pointCut" expression="execution(* gy.aop.AopStudent.set*(*))"/>
+            <aop:before method="showBefore" pointcut-ref="pointCut"/>
+            <aop:after method="showAfter" pointcut-ref="pointCut"/>
+        </aop:aspect>
+    </aop:config>
+
+    <bean id="aopAction" class="gy.aop.AopAction"/>
+    <bean id="aopStudent" class="gy.aop.AopStudent"/>
+
+</beans>
