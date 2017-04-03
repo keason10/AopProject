@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+      >
+      <!--设定值注入-->
+        <bean id="prop-name-studentInfo" class="gy.test.base.StudentInfo">
+            <property name="id" value="123"/>
+            <property name="name" value="student"/>
+        </bean>
+
+
+        <!--构造注入 type-->
+         <bean id="con-type-studentInfo" class="gy.test.base.StudentInfo">
+             <constructor-arg  type="java.lang.Long" value="12"/>
+             <constructor-arg type="java.lang.String" value="12334"/>
+        </bean>
+
+
+        <!--名字注入-->
+        <bean id="con-name-studentInfo" class="gy.test.base.StudentInfo">
+            <constructor-arg name="id" value="12"/>
+            <constructor-arg name="name" value="12334"/>
+        </bean>
+    
+        <!--顺序注入-->
+        <bean id="arg-index-studentInfo" class="gy.test.base.StudentInfo">
+            <constructor-arg index="0" value="1111"/>
+            <constructor-arg index="1" value="1233FF4"/>
+        </bean>
+
+        <!--使用xml-p元素-->
+        <bean id="p-studentInfo" class="gy.test.base.StudentInfo" p:id="2014" p:name="keasno2014"/>
+
+        <!--xml-c元素-->
+        <bean id="c-studentInfo" class="gy.test.base.StudentInfo" c:id="2015" c:name="keasno2015"/>
+
+
+        <bean id="student" class="gy.test.upper.Student" p:id="20140324" p:name="20140324"/>
+
+        <!--通过p-xml  元素，自动注入对象hobby-->
+        <bean id="hobby1" class="gy.test.upper.Hobby" p:hobbyName="热爱跳舞hobby1"/>
+        <bean id="student1" class="gy.test.upper.Student" p:id="20140324001" p:name="20140324-001" p:hobby-ref="hobby1"/>
+
+
+        <!--提供工厂类，abstract method 实现-->
+        <bean id="abstractFactory" class="gy.test.upper.AbstractFactory">
+            <lookup-method name="initStudent" bean="student1"/>
+        </bean>
+
+
+        <!--xml  中配置autowire[在父级的beans 标签中配置 default-autowire="byName" ，
+                 或者在每个需要的子集中配置 autowire="byName"] 属性，则自动装配
+                 或者在 类中定义autowire 属性，自动注入-->
+        <!--自己测试总结，如果没有写注入方式，就先按名称匹配，然后再按type匹配-->
+        <bean id="hobby" class="gy.test.upper.Hobby" p:hobbyName="热爱跳舞hobby"/>
+        <bean id="autowire-student" class="gy.test.upper.Student"/>
+
+        <!--基于autowire的方式进行自动装配  别名使用-->
+        <bean id="autowire-studentAutowire" class="gy.test.upper.StudentAutowire"/>
+        <alias name="autowire-studentAutowire"  alias="autowire-studentAutowire-alise"/>
+        <alias name="autowire-studentAutowire"  alias="autowire-studentAutowire-alise1"/>
+
+
+
+        <!--对比同为lazy-init  ,但是depends-on 会初始化，而ref 会在用到的时候再初始化。-->
+        <bean id="lazy-hobbyDependOn" class="gy.test.upper.depend.on.depends.HobbyDependOn" p:hobbyName="热爱跳舞hobby" lazy-init="true"/>
+        <bean id="studentDependOn" class="gy.test.upper.depend.on.depends.StudentDependOn" depends-on="lazy-hobbyDependOn" >
+            <property name="id" value="0001"/>
+            <property name="name" value="name0001"/>
+        </bean>
+
+        <bean id="lazy-hobbyRef" class="gy.test.upper.depend.on.ref.HobbyRef" p:hobbyName="热爱跳舞hobby" lazy-init="true"/>
+        <bean id="studentRef" class="gy.test.upper.depend.on.ref.StudentRef">
+            <property name="hobby" ref="lazy-hobbyRef"/>
+            <property name="id" value="0001"/>
+            <property name="name" value="name0001"/>
+        </bean>
+
+        <bean id="springBeanPostProessor" class="gy.test.lifecycle.SpringBeanPostProessor"/>
+
+
+</beans>

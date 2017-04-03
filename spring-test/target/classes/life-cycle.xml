@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-lazy-init="true">
+        <bean id="initLifeCycleWithCode" class="gy.test.lifecycle.InitLifeCycleWithCode" p:name="InitLifeCycleWithCode"/>
+        <bean id="initLifeCycleWithConfig" class="gy.test.lifecycle.InitLifeCycleWithConfig" p:name="InitLifeCycleWithConfig" init-method="afterPropertiesSetMethod"/>
+
+        <alias name="initLifeCycleWithCode" alias="initLifeCycleWithCode_1"/>
+        <alias name="initLifeCycleWithCode" alias="initLifeCycleWithCode_2"/>
+        <alias name="initLifeCycleWithCode" alias="initLifeCycleWithCode_3"/>
+
+        <bean id="disposeLifeCycleWithcCode" class="gy.test.lifecycle.DisposeLifeCycleWithcCode" p:name="DisposeLifeCycleWithcCode" />
+        <bean id="disposeLifeCycleWithConfig" class="gy.test.lifecycle.DisposeLifeCycleWithConfig" p:name="DisposeLifeCycleWithConfig" destroy-method="destroyMethod"/>
+
+
+        <bean id="lifecycleProcessor" class="org.springframework.context.support.DefaultLifecycleProcessor">
+            <!-- timeout value in milliseconds -->
+            <property name="timeoutPerShutdownPhase" value="5000"/>
+        </bean>
+</beans>

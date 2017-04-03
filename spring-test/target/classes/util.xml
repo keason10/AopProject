@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="utils" class="gy.test.base.Utils">
+        <constructor-arg name="list">
+            <list >
+                <value>hello</value>
+                <value>,</value>
+                <value>how</value>
+                <value>are</value>
+                <value>you</value>
+            </list>
+        </constructor-arg>
+        <constructor-arg name="map">
+            <map>
+                <entry key="id"  value="1"/>
+                <entry key="name" value="2"/>
+            </map>
+        </constructor-arg>
+        <constructor-arg name="properties">
+            <props>
+                <prop key="id">id</prop>
+                <prop key="name">name</prop>
+                <prop key="sex">sex</prop>
+                <prop key="age">age</prop>
+            </props>
+        </constructor-arg>
+    </bean>
+
+</beans>
