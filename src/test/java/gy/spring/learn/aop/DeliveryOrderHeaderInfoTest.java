@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 /**
  * Created by yantao on 2017/4/3.
  */
-public class StudentTest{
+public class DeliveryOrderHeaderInfoTest {
 
     @Test
     public void showWithGetById() {

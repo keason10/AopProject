@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <import resource="profile.xml"/>
+    <context:component-scan base-package="gy.spring.learn.transation.service"/>
+    <bean id ="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="password" value="${host.password}"/>
+        <property name="username" value="${host.username}"/>
+        <property name="url" value="${host.url}"/>
+        <property name="driverClassName" value="${host.driver}"/>
+    </bean>
+
+    <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="mapperLocations" value="classpath*:mapper/**/*.xml"/>
+        <property name="typeAliasesPackage" value="gy.spring.learn.transation.dto"/>
+    </bean>
+
+    <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="gy.spring.learn.transation.dao" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+    </bean>
+
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" >
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--事物配置-->
+    <aop:config>
+        <aop:pointcut id="txTest" expression="execution(* gy.spring.learn.transation.dao.*Dao.*(*))"/>
+        <aop:advisor advice-ref="defaultTx" pointcut-ref="txTest"/>
+    </aop:config>
+
+    <tx:advice id="defaultTx" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="update*"/>
+        </tx:attributes>
+    </tx:advice>
+</beans>

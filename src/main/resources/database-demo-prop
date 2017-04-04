@@ -1,0 +1,5 @@
+host.url=jdbc:mysql://jconnu5dt4krw.mysql.rds.aliyuncs.com:3306
+host.port=3306
+host.username=demoadmin
+host.password=demo_admin
+host.driver=com.mysql.jdbc.Driver
