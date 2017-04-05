@@ -9,8 +9,9 @@
         http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-    <bean id = "deliveryOrderServiceImplNoAnno" class="gy.spring.learn.transation.service.serviceImpl.DeliveryOrderServiceNoAnnoImpl"/>
-    <context:property-placeholder location="database-stg-prop"/>
+    <import resource="profile.xml"/>
+    <context:component-scan base-package="gy.spring.learn.transation.service"/>
+    <tx:annotation-driven/>
     <bean id ="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="password" value="${host.password}"/>
         <property name="username" value="${host.username}"/>
@@ -36,9 +37,9 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <!--事物配置-->
+    <!--事物配置 基于xml的配置-->
     <aop:config>
-        <aop:pointcut id="txTest" expression="execution(* gy.spring.learn.transation.service.serviceImpl.*Impl.update*(..))"/>
+        <aop:pointcut id="txTest" expression="execution(* gy.spring.learn.transation.service.*.*Impl.update*(..))"/>
         <aop:advisor advice-ref="defaultTx" pointcut-ref="txTest"/>
     </aop:config>
 
