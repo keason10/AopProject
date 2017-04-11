@@ -12,8 +12,8 @@
         <spring.version.four.treee.seven>4.3.7.RELEASE</spring.version.four.treee.seven>
         <mybatis.version>3.2.6</mybatis.version>
         <!-- log4j日志文件管理包版本 -->
-        <slf4j.version>1.7.7</slf4j.version>
-        <log4j.version>1.2.17</log4j.version>
+        <logback.version>1.1.7</logback.version>
+        <slf4j.version>1.7.25</slf4j.version>
     </properties>
 
     <dependencies>
@@ -133,6 +133,25 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+
+
+        <!--slf4j log config-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>keason.spring</finalName>
