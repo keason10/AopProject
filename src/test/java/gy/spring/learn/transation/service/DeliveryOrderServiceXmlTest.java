@@ -22,8 +22,19 @@ public class DeliveryOrderServiceXmlTest {
     @Qualifier("deliveryOrderServiceXmlImpl")
     DeliveryOrderService deliveryOrderService;
 
+    @Autowired
+    @Qualifier("deliveryOrderPropagationServiceImpl")
+    DeliveryOrderPropagationService deliveryPropagationOrderService;
+
     @Test
     public void updateTest() {
         deliveryOrderService.updatePlatformCodeById(10010101L,"keason9");
     }
+
+
+    @Test
+    public void updatePropagationTest() {
+        deliveryPropagationOrderService.updatePlatformCodeById(10010101L,"keason9");
+    }
+
 }

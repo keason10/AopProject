@@ -8,7 +8,7 @@
     <name>keason.spring Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <properties>
-        <spring.version>4.0.3.RELEASE</spring.version>
+        <spring.version>4.3.7.RELEASE</spring.version>
         <spring.version.four.treee.seven>4.3.7.RELEASE</spring.version.four.treee.seven>
         <mybatis.version>3.2.6</mybatis.version>
         <!-- log4j日志文件管理包版本 -->

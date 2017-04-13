@@ -1,5 +1,7 @@
 package gy.spring.learn.transation.service;
 
+import gy.spring.learn.transation.service.propagation.serviceImpl.DeliveryOrderPropagationServiceImpl;
+import gy.spring.learn.transation.service.propagation.serviceImpl.DeliveryOrderServiceAnnoOneImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,31 @@ public class DeliveryOrderServiceAnnoTest {
     @Qualifier("deliveryOrderServiceAnnoImpl")
     DeliveryOrderService deliveryOrderService;
 
+    @Autowired
+    @Qualifier("deliveryOrderServiceAnnoOneImpl")
+    DeliveryOrderServiceAnnoOneImpl deliveryOrderServiceAnnoOneImpl;
+
+    @Autowired
+    @Qualifier("deliveryOrderPropagationServiceImpl")
+    DeliveryOrderPropagationServiceImpl deliveryOrderPropagationServiceImpl;
+
     @Test
     public void updateTest() {
         deliveryOrderService.updatePlatformCodeById(10010101L,"keason4");
+    }
+
+    @Test
+    public void updatePropagationOneTest() {
+        deliveryOrderServiceAnnoOneImpl.platformCodeUpdateById(10010101L,"keason4");
+    }
+
+    @Test
+    public void codeUpdateCodeByIdTest() {
+        deliveryOrderServiceAnnoOneImpl.codeUpdateCodeById(10010101L,"code0001");
+    }
+
+    @Test
+    public void updatePropagationTest() {
+        deliveryOrderPropagationServiceImpl.updatePlatformCodeById(10010101L,"keason0009");
     }
 }

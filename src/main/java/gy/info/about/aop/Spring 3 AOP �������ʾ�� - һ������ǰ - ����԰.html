@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)http://www.cnblogs.com/nsw2018/p/5881723.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spring 3 AOP 概念及完整示例 - 一万年以前 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="Spring 3 AOP 概念及完整示例 - 一万年以前 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="Spring 3 AOP 概念及完整示例 - 一万年以前 - 博客园_files/bundle-coffee.css">
+<link id="mobile-style" media="only screen and (max-width: 768px)" type="text/css" rel="stylesheet" href="Spring 3 AOP 概念及完整示例 - 一万年以前 - 博客园_files/bundle-coffee-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/nsw2018/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/nsw2018/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/nsw2018/wlwmanifest.xml">
+<script async="" src="Spring 3 AOP 概念及完整示例 - 一万年以前 - 博客园_files/analytics.js.下载"></script><script src="Spring 3 AOP 概念及完整示例 - 一万年以前 - 博客园_files/jquery.js.下载" type="text/javascript"></script>
+<script type="text/javascript">var currentBlogApp = 'nsw2018', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="Spring 3 AOP 概念及完整示例 - 一万年以前 - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="http://www.cnblogs.com/nsw2018/"><img id="blogLogo" src="Spring 3 AOP 概念及完整示例 - 一万年以前 - 博客园_files/logo.gif" alt="返回主页"></a>
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/nsw2018/">一万年以前</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="navigator">
+			
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+	<li><a id="blog_nav_myhome" class="menu" href="http://www.cnblogs.com/nsw2018/">首页</a></li>
+	<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+	<li><a id="blog_nav_contact" accesskey="9" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E4%B8%80%E4%B8%87%E5%B9%B4%E4%BB%A5%E5%89%8D">联系</a></li>
+	<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+	<li><a id="blog_nav_rss" class="menu" href="http://www.cnblogs.com/nsw2018/rss">订阅</a>
+	<a id="blog_nav_rss_image" class="aHeaderXML" href="http://www.cnblogs.com/nsw2018/rss"><img src="Spring 3 AOP 概念及完整示例 - 一万年以前 - 博客园_files/xml.gif" alt="订阅"></a></li>
+</ul>
+
+
+			<div class="blogStats">
+				
+				<div id="blog_stats">
+<!--done-->
+随笔- 45&nbsp;
+文章- 0&nbsp;
+评论- 0&nbsp;
+</div>
+				
+			</div><!--end: blogStats -->
+		</div><!--end: navigator 博客导航栏 -->
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/nsw2018/p/5881723.html">Spring 3 AOP 概念及完整示例</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><h2>AOP概念</h2>
+<p>AOP（Aspect Oriented Programming），即面向切面编程（也叫面向方面编程，面向方法编程）。其主要作用是，在不修改源代码的情况下给某个或者一组操作添加额外的功能。像日志记录，事务处理，权限控制等功能，都可以用AOP来“优雅”地实现，使这些额外功能和真正的业务逻辑分离开来，软件的结构将更加清晰。AOP是OOP的一个强有力的补充。</p>
+<h2>AOP术语</h2>
+<p>AOP的术语不太直观，Spring文档中也没有给一个确切的定义，所以重在理解。</p>
+<ul>
+<li>
+<p>Join Point: Spring AOP中，join point就是一个方法。（通俗来讲就是起作用的那个方法）。</p>
+</li>
+<li>
+<p>Pointcut: 用来指定join point（通俗来讲就是描述的一组符合某个条件的join point）。通常使用pointcut表达式来限定joint point，Spring默认使用AspectJ pointcut expression language。</p>
+</li>
+<li>
+<p>Advice: 在join point上特定的时刻执行的操作，Advice有几种不同类型，下文将会讨论（通俗地来讲就是起作用的内容和时间点）。</p>
+</li>
+<li>
+<p>Introduction：给对象增加方法或者属性。</p>
+</li>
+<li>
+<p>Target object: Advice起作用的那个对象。</p>
+</li>
+<li>
+<p>AOP proxy: 为实现AOP所生成的代理。在Spring中有两种方式生成代理:JDK代理和CGLIB代理。</p>
+</li>
+<li>
+<p>Aspect: 组合了Pointcut与Advice，在Spring中有时候也称为Advisor。某些资料说Advisor是一种特殊的Aspect，其区别是Advisor只能包含一对pointcut和advice，但是aspect可以包含多对。AOP中的aspect可以类比于OOP中的class。</p>
+</li>
+<li>
+<p>Weaving：将Advice织入join point的这个过程。</p>
+</li>
+</ul>
+<h2>Advice的类型</h2>
+<ul>
+<li>
+<p>Before advice: &nbsp;执行在join point之前的advice,但是它不能阻止joint point的执行流程，除非抛出了一个异常（exception）。</p>
+</li>
+<li>
+<p>After returning advice: 执行在join point这个方法返回之后的advice。</p>
+</li>
+<li>
+<p>After throwing advice: 执行在join point抛出异常之后的advice。</p>
+</li>
+<li>
+<p>After(finally) advice: 执行在join point返回之后或者抛出异常之后的advice，通常用来释放所使用的资源。</p>
+</li>
+<li>
+<p>Around advice: 执行在join point这个方法执行之前与之后的advice。</p>
+</li>
+</ul>
+<h2>实现机制</h2>
+<p>Spring AOP是基于代理机制的，通过JDK Proxy和CGLIB Proxy两种方法实现代理。</p>
+<p>如果target object没有实现任何接口，那么Spring将使用CGLIB来实现代理。CGLIB是一个开源项目,它是一个强大的,高性能,高质量的Code生成类库,它可以在运行期扩展Java类与实现Java接口。</p>
+<p>如果target object实现了一个以上的接口，那么Spring将使用JDK Proxy来实现代理，因为Spring默认使用的就是JDK Proxy，并且JDK Proxy是基于接口的。这也是Spring提倡的面向接口编程。当然，你也可以强制使用CGLIB来进行代理，但是这样可能会造成性能上的下降。</p>
+<h2>Pointcut expression</h2>
+<p>Pointcut可以有下列方式来定义或者通过&amp;&amp; || 和!的方式进行组合.&nbsp;</p>
+<pre class="prettyprint out prettyprinted"><span class="pln">args<span class="pun">()<span class="pln">
+<span class="lit">@args<span class="pun">()<span class="pln">
+execution<span class="pun">()<span class="pln">
+<span class="kwd">this<span class="pun">()<span class="pln">
+target<span class="pun">()<span class="pln">
+<span class="lit">@target<span class="pun">()<span class="pln">
+within<span class="pun">()<span class="pln">
+<span class="lit">@within<span class="pun">()<span class="pln">
+<span class="lit">@annotation</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>其中execution 是用的最多的,其格式为:</p>
+<p>ret-type-pattern,name pattern, 和 parameters pattern是必须的.</p>
+<ul>
+<li>ret-type-pattern:可以为*表示任何返回值,全路径的类名等.</li>
+<li>name-pattern:指定方法名,*代表所以,set*,代表以set开头的所有方法.</li>
+<li>parameters pattern:指定方法参数(声明的类型),(..)代表所有参数,(*)代表一个参数,(*,String)代表第一个参数为任何值,第二个为String类型.</li>
+</ul>
+<p>举例说明:</p>
+<p>1) 任意公共方法的执行：</p>
+<pre class="prettyprint prettyprinted"><span class="pln">execution<span class="pun">(<span class="kwd">public<span class="pln"> <span class="pun">*<span class="pln"> <span class="pun">*(..))</span></span></span></span></span></span></span></pre>
+<p>2) 任何一个以“set”开始的方法的执行：</p>
+<pre class="prettyprint prettyprinted"><span class="pln">execution<span class="pun">(*<span class="pln"> <span class="kwd">set<span class="pun">*(..))</span></span></span></span></span></pre>
+<p>3) AccountService 接口的任意方法的执行：</p>
+<pre class="prettyprint prettyprinted"><span class="pln">execution<span class="pun">(*<span class="pln"> com<span class="pun">.<span class="pln">xyz<span class="pun">.<span class="pln">service<span class="pun">.<span class="typ">AccountService<span class="pun">.*(..))</span></span></span></span></span></span></span></span></span></span></pre>
+<p>4) 定义在service包里的任意方法的执行：</p>
+<pre class="prettyprint prettyprinted"><span class="pln">execution<span class="pun">(*<span class="pln"> com<span class="pun">.<span class="pln">xyz<span class="pun">.<span class="pln">service<span class="pun">.*.*(..))</span></span></span></span></span></span></span></span></pre>
+<p>5) 定义在service包和所有子包里的任意类的任意方法的执行：</p>
+<pre class="prettyprint prettyprinted"><span class="pln">execution<span class="pun">(*<span class="pln"> com<span class="pun">.<span class="pln">xyz<span class="pun">.<span class="pln">service<span class="pun">..*.*(..))</span></span></span></span></span></span></span></span></pre>
+<p>6) 定义在pointcutexp包和所有子包里的JoinPointObjP2类的任意方法的执行：</p>
+<pre class="prettyprint prettyprinted"><span class="pln">execution<span class="pun">(*<span class="pln"> com<span class="pun">.<span class="pln">test<span class="pun">.<span class="pln">spring<span class="pun">.<span class="pln">aop<span class="pun">.<span class="pln">pointcutexp<span class="pun">..<span class="typ">JoinPointObjP2<span class="pun">.*(..))</span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>7) pointcutexp包里的任意类.</p>
+<pre class="prettyprint prettyprinted"><span class="pln">within<span class="pun">(<span class="pln">com<span class="pun">.<span class="pln">test<span class="pun">.<span class="pln">spring<span class="pun">.<span class="pln">aop<span class="pun">.<span class="pln">pointcutexp<span class="pun">.*)</span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>8) pointcutexp包和所有子包里的任意类.</p>
+<pre class="prettyprint prettyprinted"><span class="pln">within<span class="pun">(<span class="pln">com<span class="pun">.<span class="pln">test<span class="pun">.<span class="pln">spring<span class="pun">.<span class="pln">aop<span class="pun">.<span class="pln">pointcutexp<span class="pun">..*)</span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>9) 实现了Intf接口的所有类,如果Intf不是接口,限定Intf单个类.</p>
+<pre class="prettyprint prettyprinted"><span class="kwd">this<span class="pun">(<span class="pln">com<span class="pun">.<span class="pln">test<span class="pun">.<span class="pln">spring<span class="pun">.<span class="pln">aop<span class="pun">.<span class="pln">pointcutexp<span class="pun">.<span class="typ">Intf<span class="pun">)</span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>10) 带有@Transactional标注的所有类的任意方法.</p>
+<pre class="prettyprint prettyprinted"><span class="lit">@within<span class="pun">(<span class="pln">org<span class="pun">.<span class="pln">springframework<span class="pun">.<span class="pln">transaction<span class="pun">.<span class="pln">annotation<span class="pun">.<span class="typ">Transactional<span class="pun">)<span class="pln">
+<span class="lit">@target<span class="pun">(<span class="pln">org<span class="pun">.<span class="pln">springframework<span class="pun">.<span class="pln">transaction<span class="pun">.<span class="pln">annotation<span class="pun">.<span class="typ">Transactional<span class="pun">)</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>11) 带有@Transactional标注的任意方法.</p>
+<pre class="prettyprint prettyprinted"><span class="lit">@annotation<span class="pun">(<span class="pln">org<span class="pun">.<span class="pln">springframework<span class="pun">.<span class="pln">transaction<span class="pun">.<span class="pln">annotation<span class="pun">.<span class="typ">Transactional<span class="pun">)</span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>12) 参数带有@Transactional标注的方法.</p>
+<pre class="prettyprint prettyprinted"><span class="lit">@args<span class="pun">(<span class="pln">org<span class="pun">.<span class="pln">springframework<span class="pun">.<span class="pln">transaction<span class="pun">.<span class="pln">annotation<span class="pun">.<span class="typ">Transactional<span class="pun">)</span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>13) 参数为String类型(运行是决定)的方法.</p>
+<pre class="prettyprint prettyprinted"><span class="pln">args<span class="pun">(<span class="typ">String<span class="pun">)</span></span></span></span><br><br><br><br></pre>
+<h1>完整示例：</h1>
+<p>首先新建一个maven项目，在项目的pom.xml中添加spring aop相关的依赖项：</p>
+<p>如下是完整的pom.xml：</p>
+<pre class="prettyprint prettyprinted"><span class="tag">&lt;project<span class="pln"> <span class="atn">xmlns<span class="pun">=<span class="atv">"http://maven.apache.org/POM/4.0.0"<span class="pln"> <span class="atn">xmlns:xsi<span class="pun">=<span class="atv">"http://www.w3.org/2001/XMLSchema-instance"<span class="pln">
+	<span class="atn">xsi:schemaLocation<span class="pun">=<span class="atv">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"<span class="tag">&gt;<span class="pln">
+	<span class="tag">&lt;modelVersion&gt;<span class="pln">4.0.0<span class="tag">&lt;/modelVersion&gt;<span class="pln">
+
+	<span class="tag">&lt;groupId&gt;<span class="pln">cn.outofmemory<span class="tag">&lt;/groupId&gt;<span class="pln">
+	<span class="tag">&lt;artifactId&gt;<span class="pln">spring-aop-aspect<span class="tag">&lt;/artifactId&gt;<span class="pln">
+	<span class="tag">&lt;version&gt;<span class="pln">0.0.1-SNAPSHOT<span class="tag">&lt;/version&gt;<span class="pln">
+	<span class="tag">&lt;packaging&gt;<span class="pln">jar<span class="tag">&lt;/packaging&gt;<span class="pln">
+
+	<span class="tag">&lt;name&gt;<span class="pln">spring-aop-aspect<span class="tag">&lt;/name&gt;<span class="pln">
+	<span class="tag">&lt;url&gt;<span class="pln">http://maven.apache.org<span class="tag">&lt;/url&gt;<span class="pln">
+	<span class="tag">&lt;properties&gt;<span class="pln">
+		<span class="tag">&lt;spring.version&gt;<span class="pln">3.1.1.RELEASE<span class="tag">&lt;/spring.version&gt;<span class="pln">
+	<span class="tag">&lt;/properties&gt;<span class="pln">
+	<span class="tag">&lt;dependencies&gt;<span class="pln">
+		<span class="tag">&lt;dependency&gt;<span class="pln">
+			<span class="tag">&lt;groupId&gt;<span class="pln">org.springframework<span class="tag">&lt;/groupId&gt;<span class="pln">
+			<span class="tag">&lt;artifactId&gt;<span class="pln">spring-core<span class="tag">&lt;/artifactId&gt;<span class="pln">
+			<span class="tag">&lt;version&gt;<span class="pln">${spring.version}<span class="tag">&lt;/version&gt;<span class="pln">
+		<span class="tag">&lt;/dependency&gt;<span class="pln">
+		<span class="tag">&lt;dependency&gt;<span class="pln">
+			<span class="tag">&lt;groupId&gt;<span class="pln">org.springframework<span class="tag">&lt;/groupId&gt;<span class="pln">
+			<span class="tag">&lt;artifactId&gt;<span class="pln">spring-context<span class="tag">&lt;/artifactId&gt;<span class="pln">
+			<span class="tag">&lt;version&gt;<span class="pln">${spring.version}<span class="tag">&lt;/version&gt;<span class="pln">
+		<span class="tag">&lt;/dependency&gt;<span class="pln">
+		<span class="tag">&lt;dependency&gt;<span class="pln">
+			<span class="tag">&lt;groupId&gt;<span class="pln">org.springframework<span class="tag">&lt;/groupId&gt;<span class="pln">
+			<span class="tag">&lt;artifactId&gt;<span class="pln">spring-aop<span class="tag">&lt;/artifactId&gt;<span class="pln">
+			<span class="tag">&lt;version&gt;<span class="pln">${spring.version}<span class="tag">&lt;/version&gt;<span class="pln">
+		<span class="tag">&lt;/dependency&gt;<span class="pln">
+		<span class="tag">&lt;dependency&gt;<span class="pln">
+			<span class="tag">&lt;groupId&gt;<span class="pln">org.aspectj<span class="tag">&lt;/groupId&gt;<span class="pln">
+			<span class="tag">&lt;artifactId&gt;<span class="pln">aspectjrt<span class="tag">&lt;/artifactId&gt;<span class="pln">
+			<span class="tag">&lt;version&gt;<span class="pln">1.6.12<span class="tag">&lt;/version&gt;<span class="pln">
+		<span class="tag">&lt;/dependency&gt;<span class="pln">
+		<span class="tag">&lt;dependency&gt;<span class="pln">
+			<span class="tag">&lt;groupId&gt;<span class="pln">org.aspectj<span class="tag">&lt;/groupId&gt;<span class="pln">
+			<span class="tag">&lt;artifactId&gt;<span class="pln">aspectjweaver<span class="tag">&lt;/artifactId&gt;<span class="pln">
+			<span class="tag">&lt;version&gt;<span class="pln">1.6.12<span class="tag">&lt;/version&gt;<span class="pln">
+		<span class="tag">&lt;/dependency&gt;<span class="pln">
+		<span class="tag">&lt;dependency&gt;<span class="pln">
+			<span class="tag">&lt;groupId&gt;<span class="pln">cglib<span class="tag">&lt;/groupId&gt;<span class="pln">
+			<span class="tag">&lt;artifactId&gt;<span class="pln">cglib<span class="tag">&lt;/artifactId&gt;<span class="pln">
+			<span class="tag">&lt;version&gt;<span class="pln">2.2<span class="tag">&lt;/version&gt;<span class="pln">
+		<span class="tag">&lt;/dependency&gt;<span class="pln">
+	<span class="tag">&lt;/dependencies&gt;<span class="pln">
+<span class="tag">&lt;/project&gt;</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>在maven中我们引入了spring aop相关的依赖，aspectj相关的包有两个，cglib是必须的。</p>
+<p>下面我们在项目中新建一个Service类PersonService，它是业务代码，是我们AOP注入的目标类：</p>
+<pre class="prettyprint java prettyprinted"><span class="kwd">package<span class="pln"> cn<span class="pun">.<span class="pln">outofmemory<span class="pun">.<span class="pln">spring_aop_aspect<span class="pun">;<span class="pln">
+
+<span class="kwd">import<span class="pln"> org<span class="pun">.<span class="pln">springframework<span class="pun">.<span class="pln">stereotype<span class="pun">.<span class="typ">Service<span class="pun">;<span class="pln">
+
+<span class="lit">@Service<span class="pln">
+<span class="kwd">public<span class="pln"> <span class="kwd">class<span class="pln"> <span class="typ">PersonService<span class="pln"> <span class="pun">{<span class="pln">
+
+	<span class="kwd">public<span class="pln"> <span class="kwd">void<span class="pln"> addPerson<span class="pun">(<span class="typ">String<span class="pln"> personName<span class="pun">)<span class="pln"> <span class="pun">{<span class="pln">
+		<span class="typ">System<span class="pun">.<span class="kwd">out<span class="pun">.<span class="pln">println<span class="pun">(<span class="str">"add person "<span class="pln"> <span class="pun">+<span class="pln"> personName<span class="pun">);<span class="pln">
+	<span class="pun">}<span class="pln">
+	
+	<span class="kwd">public<span class="pln"> <span class="kwd">boolean<span class="pln"> deletePerson<span class="pun">(<span class="typ">String<span class="pln"> personName<span class="pun">)<span class="pln"> <span class="pun">{<span class="pln">
+		<span class="typ">System<span class="pun">.<span class="kwd">out<span class="pun">.<span class="pln">println<span class="pun">(<span class="str">"delete person "<span class="pln"> <span class="pun">+<span class="pln"> personName<span class="pun">)<span class="pln"> <span class="pun">;<span class="pln">
+		<span class="kwd">return<span class="pln"> <span class="kwd">true<span class="pun">;<span class="pln">
+	<span class="pun">}<span class="pln">
+	
+	<span class="kwd">public<span class="pln"> <span class="kwd">void<span class="pln"> editPerson<span class="pun">(<span class="typ">String<span class="pln"> personName<span class="pun">)<span class="pln"> <span class="pun">{<span class="pln">
+		<span class="typ">System<span class="pun">.<span class="kwd">out<span class="pun">.<span class="pln">println<span class="pun">(<span class="str">"edit person "<span class="pln"> <span class="pun">+<span class="pln"> personName<span class="pun">);<span class="pln">
+		<span class="kwd">throw<span class="pln"> <span class="kwd">new<span class="pln"> <span class="typ">RuntimeException<span class="pun">(<span class="str">"edit person throw exception"<span class="pun">);<span class="pln">
+	<span class="pun">}<span class="pln">
+	
+<span class="pun">}</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>PersonService类中定义了三个方法，addPerson方法无返回值，而deletePerson方法有返回值，而editPerson方法抛出运行时的异常。</p>
+<p>下面我们看Aspect类：</p>
+<pre class="prettyprint prettyprinted"><span class="kwd">package<span class="pln"> cn<span class="pun">.<span class="pln">outofmemory<span class="pun">.<span class="pln">spring_aop_aspect<span class="pun">;<span class="pln">
+
+<span class="kwd">import<span class="pln"> org<span class="pun">.<span class="pln">aspectj<span class="pun">.<span class="pln">lang<span class="pun">.<span class="typ">JoinPoint<span class="pun">;<span class="pln">
+<span class="kwd">import<span class="pln"> org<span class="pun">.<span class="pln">aspectj<span class="pun">.<span class="pln">lang<span class="pun">.<span class="typ">ProceedingJoinPoint<span class="pun">;<span class="pln">
+<span class="kwd">import<span class="pln"> org<span class="pun">.<span class="pln">aspectj<span class="pun">.<span class="pln">lang<span class="pun">.<span class="pln">annotation<span class="pun">.<span class="typ">After<span class="pun">;<span class="pln">
+<span class="kwd">import<span class="pln"> org<span class="pun">.<span class="pln">aspectj<span class="pun">.<span class="pln">lang<span class="pun">.<span class="pln">annotation<span class="pun">.<span class="typ">AfterReturning<span class="pun">;<span class="pln">
+<span class="kwd">import<span class="pln"> org<span class="pun">.<span class="pln">aspectj<span class="pun">.<span class="pln">lang<span class="pun">.<span class="pln">annotation<span class="pun">.<span class="typ">AfterThrowing<span class="pun">;<span class="pln">
+<span class="kwd">import<span class="pln"> org<span class="pun">.<span class="pln">aspectj<span class="pun">.<span class="pln">lang<span class="pun">.<span class="pln">annotation<span class="pun">.<span class="typ">Around<span class="pun">;<span class="pln">
+<span class="kwd">import<span class="pln"> org<span class="pun">.<span class="pln">aspectj<span class="pun">.<span class="pln">lang<span class="pun">.<span class="pln">annotation<span class="pun">.<span class="typ">Aspect<span class="pun">;<span class="pln">
+<span class="kwd">import<span class="pln"> org<span class="pun">.<span class="pln">aspectj<span class="pun">.<span class="pln">lang<span class="pun">.<span class="pln">annotation<span class="pun">.<span class="typ">Before<span class="pun">;<span class="pln">
+<span class="kwd">import<span class="pln"> org<span class="pun">.<span class="pln">aspectj<span class="pun">.<span class="pln">lang<span class="pun">.<span class="pln">annotation<span class="pun">.<span class="typ">Pointcut<span class="pun">;<span class="pln">
+<span class="kwd">import<span class="pln"> org<span class="pun">.<span class="pln">springframework<span class="pun">.<span class="pln">stereotype<span class="pun">.<span class="typ">Component<span class="pun">;<span class="pln">
+
+<span class="lit">@Component<span class="pln">
+<span class="lit">@Aspect<span class="pln">
+<span class="kwd">public<span class="pln"> <span class="kwd">class<span class="pln"> <span class="typ">SimpleAspect<span class="pln"> <span class="pun">{<span class="pln">
+	<span class="lit">@Pointcut<span class="pun">(<span class="str">"execution(* cn.outofmemory.spring_aop_aspect.*Service*.*(..))"<span class="pun">)<span class="pln">
+	<span class="kwd">public<span class="pln"> <span class="kwd">void<span class="pln"> pointCut<span class="pun">()<span class="pln"> <span class="pun">{<span class="pln">
+	<span class="pun">}<span class="pln">
+
+	<span class="lit">@After<span class="pun">(<span class="str">"pointCut()"<span class="pun">)<span class="pln">
+	<span class="kwd">public<span class="pln"> <span class="kwd">void<span class="pln"> after<span class="pun">(<span class="typ">JoinPoint<span class="pln"> joinPoint<span class="pun">)<span class="pln"> <span class="pun">{<span class="pln">
+		<span class="typ">System<span class="pun">.<span class="kwd">out<span class="pun">.<span class="pln">println<span class="pun">(<span class="str">"after aspect executed"<span class="pun">);<span class="pln">
+	<span class="pun">}<span class="pln">
+
+	<span class="lit">@Before<span class="pun">(<span class="str">"pointCut()"<span class="pun">)<span class="pln">
+	<span class="kwd">public<span class="pln"> <span class="kwd">void<span class="pln"> before<span class="pun">(<span class="typ">JoinPoint<span class="pln"> joinPoint<span class="pun">)<span class="pln"> <span class="pun">{<span class="pln">
+		<span class="com">//如果需要这里可以取出参数进行处理<span class="pln">
+		<span class="com">//Object[] args = joinPoint.getArgs();<span class="pln">
+		<span class="typ">System<span class="pun">.<span class="kwd">out<span class="pun">.<span class="pln">println<span class="pun">(<span class="str">"before aspect executing"<span class="pun">);<span class="pln">
+	<span class="pun">}<span class="pln">
+
+	<span class="lit">@AfterReturning<span class="pun">(<span class="pln">pointcut <span class="pun">=<span class="pln"> <span class="str">"pointCut()"<span class="pun">,<span class="pln"> returning <span class="pun">=<span class="pln"> <span class="str">"returnVal"<span class="pun">)<span class="pln">
+	<span class="kwd">public<span class="pln"> <span class="kwd">void<span class="pln"> afterReturning<span class="pun">(<span class="typ">JoinPoint<span class="pln"> joinPoint<span class="pun">,<span class="pln"> <span class="typ">Object<span class="pln"> returnVal<span class="pun">)<span class="pln"> <span class="pun">{<span class="pln">
+		<span class="typ">System<span class="pun">.<span class="kwd">out<span class="pun">.<span class="pln">println<span class="pun">(<span class="str">"afterReturning executed, return result is "<span class="pln">
+				<span class="pun">+<span class="pln"> returnVal<span class="pun">);<span class="pln">
+	<span class="pun">}<span class="pln">
+
+	<span class="lit">@Around<span class="pun">(<span class="str">"pointCut()"<span class="pun">)<span class="pln">
+	<span class="kwd">public<span class="pln"> <span class="kwd">void<span class="pln"> around<span class="pun">(<span class="typ">ProceedingJoinPoint<span class="pln"> pjp<span class="pun">)<span class="pln"> <span class="kwd">throws<span class="pln"> <span class="typ">Throwable<span class="pln"> <span class="pun">{<span class="pln">
+		<span class="typ">System<span class="pun">.<span class="kwd">out<span class="pun">.<span class="pln">println<span class="pun">(<span class="str">"around start.."<span class="pun">);<span class="pln">
+		<span class="kwd">try<span class="pln"> <span class="pun">{<span class="pln">
+			pjp<span class="pun">.<span class="pln">proceed<span class="pun">();<span class="pln">
+		<span class="pun">}<span class="pln"> <span class="kwd">catch<span class="pln"> <span class="pun">(<span class="typ">Throwable<span class="pln"> ex<span class="pun">)<span class="pln"> <span class="pun">{<span class="pln">
+			<span class="typ">System<span class="pun">.<span class="kwd">out<span class="pun">.<span class="pln">println<span class="pun">(<span class="str">"error in around"<span class="pun">);<span class="pln">
+			<span class="kwd">throw<span class="pln"> ex<span class="pun">;<span class="pln">
+		<span class="pun">}<span class="pln">
+		<span class="typ">System<span class="pun">.<span class="kwd">out<span class="pun">.<span class="pln">println<span class="pun">(<span class="str">"around end"<span class="pun">);<span class="pln">
+	<span class="pun">}<span class="pln">
+
+	<span class="lit">@AfterThrowing<span class="pun">(<span class="pln">pointcut <span class="pun">=<span class="pln"> <span class="str">"pointCut()"<span class="pun">,<span class="pln"> throwing <span class="pun">=<span class="pln"> <span class="str">"error"<span class="pun">)<span class="pln">
+	<span class="kwd">public<span class="pln"> <span class="kwd">void<span class="pln"> afterThrowing<span class="pun">(<span class="typ">JoinPoint<span class="pln"> jp<span class="pun">,<span class="pln"> <span class="typ">Throwable<span class="pln"> error<span class="pun">)<span class="pln"> <span class="pun">{<span class="pln">
+		<span class="typ">System<span class="pun">.<span class="kwd">out<span class="pun">.<span class="pln">println<span class="pun">(<span class="str">"error:"<span class="pln"> <span class="pun">+<span class="pln"> error<span class="pun">);<span class="pln">
+	<span class="pun">}<span class="pln">
+<span class="pun">}</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>SimpleAspect类中的第一个方法是pointCut()方法，此方法无任何执行内容，只有一个@Pointcut的注解，其他方法都会引用这个注解中指定的pointcut表达式。</p>
+<p>其他几个方法是各种Advice类型的方法实现，在这些方法中都可以通过JoinPoint实例来获得方法执行的上下文信息，参数信息。需要注意AfterReturning和AfterThrowing，After三种不同Advice的执行顺序。</p>
+<p>有了spring框架和aspectj以及cglib的支持，我们只需要实现上面两个类就可以使用spring aop的功能了，下面我们看下如何在spring的配置文件中配置spring aop。</p>
+<pre class="prettyprint xml prettyprinted"><span class="pun">&lt;?<span class="pln">xml version<span class="pun">=<span class="str">"1.0"<span class="pln"> encoding<span class="pun">=<span class="str">"UTF-8"<span class="pun">?&gt;<span class="pln">
+<span class="tag">&lt;beans<span class="pln"> <span class="atn">xmlns<span class="pun">=<span class="atv">"http://www.springframework.org/schema/beans"<span class="pln">
+&nbsp; &nbsp; &nbsp; &nbsp;<span class="atn">xmlns:xsi<span class="pun">=<span class="atv">"http://www.w3.org/2001/XMLSchema-instance"<span class="pln">
+&nbsp; &nbsp; &nbsp; &nbsp;<span class="atn">xmlns:aop<span class="pun">=<span class="atv">"http://www.springframework.org/schema/aop"<span class="pln">
+&nbsp; &nbsp; &nbsp; &nbsp;<span class="atn">xmlns:context<span class="pun">=<span class="atv">"http://www.springframework.org/schema/context"<span class="pln">
+&nbsp; &nbsp; &nbsp; &nbsp;<span class="atn">xsi:schemaLocation<span class="pun">=<span class="atv">"http://www.springframework.org/schema/beans
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;http://www.springframework.org/schema/aop
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;http://www.springframework.org/schema/context
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;http://www.springframework.org/schema/context/spring-context-3.1.xsd"<span class="tag">&gt;<span class="pln">
+&nbsp; &nbsp; <span class="tag">&lt;aop:aspectj-autoproxy<span class="pln"> <span class="tag">/&gt;<span class="pln">
+&nbsp; &nbsp; <span class="tag">&lt;context:component-scan<span class="pln"> <span class="atn">base-package<span class="pun">=<span class="atv">"cn.outofmemory"<span class="pln"> <span class="tag">/&gt;<span class="pln">&nbsp;
+<span class="tag">&lt;/beans&gt;</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>注意在beans节点中需要指定aop命名空间，一家chemaLocation地址，启用aop只需要添加<code>&lt;aop:aspectj-autoproxy/&gt;</code>就可以了。&lt;context:component-scan/&gt;节点用来指定<a href="http://outofmemory.cn/java/spring/spring-DI-with-annotation-context-component-scan">自动扫描bean的命名空间</a>。</p>
+<p>最后我们要测试下aop的效果，需要新建一个App类作为程序的入口类。</p>
+<pre class="prettyprint prettyprinted"><span class="kwd">package<span class="pln"> cn<span class="pun">.<span class="pln">outofmemory<span class="pun">.<span class="pln">spring_aop_aspect<span class="pun">;<span class="pln">
+
+<span class="kwd">import<span class="pln"> org<span class="pun">.<span class="pln">springframework<span class="pun">.<span class="pln">context<span class="pun">.<span class="typ">ApplicationContext<span class="pun">;<span class="pln">
+<span class="kwd">import<span class="pln"> org<span class="pun">.<span class="pln">springframework<span class="pun">.<span class="pln">context<span class="pun">.<span class="pln">support<span class="pun">.<span class="typ">ClassPathXmlApplicationContext<span class="pun">;<span class="pln">
+
+
+<span class="com">/**
+&nbsp;* Hello world!
+&nbsp;*
+&nbsp;*/<span class="pln">
+<span class="kwd">public<span class="pln"> <span class="kwd">class<span class="pln"> <span class="typ">App<span class="pln">&nbsp;
+<span class="pun">{<span class="pln">
+&nbsp; &nbsp; <span class="kwd">public<span class="pln"> <span class="kwd">static<span class="pln"> <span class="kwd">void<span class="pln"> main<span class="pun">(<span class="pln"> <span class="typ">String<span class="pun">[]<span class="pln"> args <span class="pun">)<span class="pln">
+&nbsp; &nbsp; <span class="pun">{<span class="pln">
+&nbsp; &nbsp; 	<span class="typ">ApplicationContext<span class="pln"> appContext <span class="pun">=<span class="pln"> <span class="kwd">new<span class="pln"> <span class="typ">ClassPathXmlApplicationContext<span class="pun">(<span class="str">"/appContext.xml"<span class="pun">);<span class="pln">
+&nbsp; &nbsp; 	<span class="typ">PersonService<span class="pln"> personService <span class="pun">=<span class="pln"> appContext<span class="pun">.<span class="pln">getBean<span class="pun">(<span class="typ">PersonService<span class="pun">.<span class="kwd">class<span class="pun">);<span class="pln">
+&nbsp; &nbsp; 	<span class="typ">String<span class="pln"> personName <span class="pun">=<span class="pln"> <span class="str">"Jim"<span class="pun">;<span class="pln">
+&nbsp; &nbsp; 	personService<span class="pun">.<span class="pln">addPerson<span class="pun">(<span class="pln">personName<span class="pun">);<span class="pln">
+&nbsp; &nbsp; 	personService<span class="pun">.<span class="pln">deletePerson<span class="pun">(<span class="pln">personName<span class="pun">);<span class="pln">
+&nbsp; &nbsp; 	personService<span class="pun">.<span class="pln">editPerson<span class="pun">(<span class="pln">personName<span class="pun">);<span class="pln">
+&nbsp; &nbsp; 	<span class="pun">((<span class="typ">ClassPathXmlApplicationContext<span class="pun">)<span class="pln">appContext<span class="pun">).<span class="pln">close<span class="pun">();<span class="pln">
+&nbsp; &nbsp; <span class="pun">}<span class="pln">
+<span class="pun">}</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>这个类中我们初始化了ApplicationContext，然后从中得到PersonService的实例，并执行其addPerson,deletePerson,editPerson方法，最后关闭ApplicationContext。</p>
+<p>其执行结果如下：</p>
+<pre class="prettyprint out prettyprinted"><span class="pln">before aspect executing
+around start<span class="pun">..<span class="pln">
+add person <span class="typ">Jim<span class="pln">
+after aspect executed
+around <span class="kwd">end<span class="pln">
+afterReturning executed<span class="pun">,<span class="pln"> <span class="kwd">return<span class="pln"> result <span class="kwd">is<span class="pln"> <span class="kwd">null<span class="pln">
+<span class="pun">-------------------------------------<span class="pln">
+before aspect executing
+around start<span class="pun">..<span class="pln">
+<span class="kwd">delete<span class="pln"> person <span class="typ">Jim<span class="pln">
+after aspect executed
+around <span class="kwd">end<span class="pln">
+afterReturning executed<span class="pun">,<span class="pln"> <span class="kwd">return<span class="pln"> result <span class="kwd">is<span class="pln"> <span class="kwd">null<span class="pln">
+<span class="pun">----------------------------------------<span class="pln">
+before aspect executing
+around start<span class="pun">..<span class="pln">
+edit person <span class="typ">Jim<span class="pln">
+after aspect executed
+error <span class="kwd">in<span class="pln"> around
+error<span class="pun">:<span class="pln">java<span class="pun">.<span class="pln">lang<span class="pun">.<span class="typ">RuntimeException<span class="pun">:<span class="pln"> edit person <span class="kwd">throw<span class="pln"> exception
+<span class="typ">Exception<span class="pln"> <span class="kwd">in<span class="pln"> thread <span class="pun">...</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>从上面执行结果可以看到我们要执行的Before，around，after以及around，afterReturning，afterThrowing都正常的执行了。</p>
+<p>&nbsp;</p>
+<p><strong>AOP 配置详解</strong></p>
+<p>http://blog.csdn.net/lipei1220/article/details/52152430</p>
+<p>&nbsp;</p>
+<p><strong>Spring AOP 完成日志记录</strong></p>
+<p>http://hotstrong.iteye.com/blog/1330046</p>
+<p>http://blog.csdn.net/baidu_25958185/article/details/43764467</p>
+<p>http://www.oschina.net/code/snippet_1159320_49213</p>
+<p>&nbsp;</p>
+<p><strong>Spring Aop自定义注解拦截Controller实现日志管理</strong></p>
+<p>http://blog.csdn.net/itnik/article/details/38542373</p>
+<p>&nbsp;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(5881723,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;39f9c79e-ab6d-e611-9fc1-ac853d9f53cc&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="Spring 3 AOP 概念及完整示例 - 一万年以前 - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="Spring 3 AOP 概念及完整示例 - 一万年以前 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/nsw2018/" target="_blank"><img src="Spring 3 AOP 概念及完整示例 - 一万年以前 - 博客园_files/20160829134519.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/nsw2018/">一万年以前</a><br>
+            <a href="http://home.cnblogs.com/u/nsw2018/followees">关注 - 1</a><br>
+            <a href="http://home.cnblogs.com/u/nsw2018/followers">粉丝 - 1</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;39f9c79e-ab6d-e611-9fc1-ac853d9f53cc&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(5881723,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(5881723,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/nsw2018/p/5853635.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/nsw2018/p/5853635.html" title="发布于2016-09-08 16:47">Java并发之CountDownLatch、CyclicBarrier和Semaphore</a><br><a href="http://www.cnblogs.com/nsw2018/p/5884125.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/nsw2018/p/5884125.html" title="发布于2016-09-19 10:18">SpringMVC + Spring + Mybatis+ Redis +shiro以及MyBatis学习</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2016-09-18 15:17</span> <a href="http://www.cnblogs.com/nsw2018/">一万年以前</a> 阅读(<span id="post_view_count">404</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=5881723" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/nsw2018/p/5881723.html#" onclick="AddToWz(5881723);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=302336,cb_entryId=5881723,cb_blogApp=currentBlogApp,cb_blogUserGuid='39f9c79e-ab6d-e611-9fc1-ac853d9f53cc',cb_entryCreatedDate='2016/9/18 15:17:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/nsw2018/p/5881723.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/nsw2018/p/5881723.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="http://cn.udacity.com/fend/?utm_source=cnblogs&amp;utm_medium=referral&amp;utm_campaign=newFEND" target="_blank">【推荐】Google+GitHub联手打造前端工程师课程</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="http://www.gcpowertools.com.cn/products/componentone_studio_enterprise.htm?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=C1&amp;utm_campaign=community" target="_blank"><img width="300" height="250" src="Spring 3 AOP 概念及完整示例 - 一万年以前 - 博客园_files/24442-20170331214657258-1483842641.png" alt="C1"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/567007/" target="_blank">豪声电子诉乐视欠款5200万案达成和解 仲裁费约43万元</a><br> ·  <a href="http://news.cnblogs.com/n/567006/" target="_blank">投资建厂布局产业链，印度会成为中国手机的新基地吗？</a><br> ·  <a href="http://news.cnblogs.com/n/567005/" target="_blank">贝索斯的太空飞船没有厕所 飞行前需先方便</a><br> ·  <a href="http://news.cnblogs.com/n/567004/" target="_blank">违反竞业协议 搜狐前高管跳槽优酷遭五千万索赔</a><br> ·  <a href="http://news.cnblogs.com/n/567003/" target="_blank">星巴克： 使用iMessage应用赠送礼品卡有奖</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"><a href="http://click.aliyun.com/m/15483/" target="_blank"><img width="468" height="60" src="Spring 3 AOP 概念及完整示例 - 一万年以前 - 博客园_files/24442-20170331150421570-489464769.jpg" alt="阿里云C2"></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/566318/" target="_blank">我为什么鼓励工程师写blog</a><br> ·  <a href="http://kb.cnblogs.com/page/566528/" target="_blank">怎么轻松学习JavaScript</a><br> ·  <a href="http://kb.cnblogs.com/page/509431/" target="_blank">如何打好前端游击战</a><br> ·  <a href="http://kb.cnblogs.com/page/564590/" target="_blank">技术文章的阅读姿势</a><br> ·  <a href="http://kb.cnblogs.com/page/565931/" target="_blank">马拉松式学习与技术人员的成长性</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/nsw2018/">一万年以前</a><br>园龄：<a href="http://home.cnblogs.com/u/nsw2018/" title="入园时间：2016-08-29">7个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/nsw2018/followers/">1</a><br>关注：<a href="http://home.cnblogs.com/u/nsw2018/followees/">1</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;39f9c79e-ab6d-e611-9fc1-ac853d9f53cc&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2017/03/01&#39;);return false;">&lt;</a></td><td align="center">2017年4月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2017/05/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">26</td><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td class="CalWeekendDay" align="center">1</td></tr><tr><td class="CalWeekendDay" align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center">7</td><td class="CalWeekendDay" align="center">8</td></tr><tr><td class="CalWeekendDay" align="center">9</td><td align="center"><a href="http://www.cnblogs.com/nsw2018/archive/2017/04/10.html"><u>10</u></a></td><td align="center">11</td><td align="center"><a href="http://www.cnblogs.com/nsw2018/archive/2017/04/12.html"><u>12</u></a></td><td class="CalTodayDay" align="center">13</td><td align="center">14</td><td class="CalWeekendDay" align="center">15</td></tr><tr><td class="CalWeekendDay" align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td class="CalWeekendDay" align="center">22</td></tr><tr><td class="CalWeekendDay" align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td class="CalWeekendDay" align="center">29</td></tr><tr><td class="CalWeekendDay" align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/nsw2018/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/nsw2018/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/nsw2018/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/nsw2018/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/nsw2018/tag/" title="我的博客的标签列表">我的标签</a></li>
+<li><a id="itemListLink" onclick="this.blur();WarpClass(&#39;itemListLink&#39;, &#39;itemListLin_con&#39;);return false;" href="http://www.cnblogs.com/nsw2018/p/5881723.html#">更多链接</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block"></div><div id="sidebar_categories">
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/nsw2018/archive/2017/04.html">2017年4月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/nsw2018/archive/2017/03.html">2017年3月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/nsw2018/archive/2017/02.html">2017年2月 (13)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/nsw2018/archive/2017/01.html">2017年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/nsw2018/archive/2016/12.html">2016年12月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/nsw2018/archive/2016/11.html">2016年11月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/nsw2018/archive/2016/10.html">2016年10月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/nsw2018/archive/2016/09.html">2016年9月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/nsw2018/archive/2016/08.html">2016年8月 (6)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap" style="display: none;">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"></div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/nsw2018/p/5821738.html">1. Lock与synchronized 的区别(8089)</a></li><li><a href="http://www.cnblogs.com/nsw2018/p/6140655.html">2. 谷歌Chrome浏览器提示adobe flash player已过期完美解决办法(2010)</a></li><li><a href="http://www.cnblogs.com/nsw2018/p/6398020.html">3. mySQL：两表更新（用一个表更新另一个表）的SQL语句(476)</a></li><li><a href="http://www.cnblogs.com/nsw2018/p/5940918.html">4. maven overlays 合并多个war(417)</a></li><li><a href="http://www.cnblogs.com/nsw2018/p/5881723.html">5. Spring 3 AOP 概念及完整示例(404)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap" style="display: none;">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/nsw2018/p/5821738.html">1. Lock与synchronized 的区别(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2017 一万年以前
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

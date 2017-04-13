@@ -35,6 +35,11 @@
     <!--基于Annotation的配置-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" >
         <property name="dataSource" ref="dataSource"/>
+        <qualifier value="txOne"/>
+    </bean>
+    <bean id="transactionManager1" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" >
+        <property name="dataSource" ref="dataSource"/>
+        <qualifier value="txTwo"/>
     </bean>
     <tx:annotation-driven/>
 </beans>

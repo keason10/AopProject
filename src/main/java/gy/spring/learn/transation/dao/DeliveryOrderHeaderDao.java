@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface DeliveryOrderHeaderDao {
     DeliveryOrderHeaderInfo selectById(@Param("id") Long id);
     Integer updatePlatformCodeById(@Param("id") Long id, @Param("platformCode") String platformCode);
+    Integer updateCodeById(@Param("id") Long id, @Param("code") String code);
 }

@@ -45,7 +45,7 @@
 
     <tx:advice id="defaultTx" transaction-manager="transactionManager">
         <tx:attributes>
-            <tx:method name="update*"/>
+            <tx:method name="update*" propagation="REQUIRED"/>
         </tx:attributes>
     </tx:advice>
 </beans>
