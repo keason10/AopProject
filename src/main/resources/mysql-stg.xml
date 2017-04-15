@@ -11,6 +11,14 @@
         http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     <bean id = "deliveryOrderServiceImplNoAnno" class="gy.spring.learn.transation.service.serviceImpl.DeliveryOrderServiceNoAnnoImpl"/>
     <context:property-placeholder location="database-stg-prop"/>
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <value>classpath:com/foo/strategy.properties</value>
+        </property>
+        <property name="properties">
+            <value>custom.strategy.class=com.foo.DefaultStrategy</value>
+        </property>
+    </bean>
     <bean id ="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="password" value="${host.password}"/>
         <property name="username" value="${host.username}"/>

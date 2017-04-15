@@ -1,0 +1,1 @@
+UPDATE erp_tc.delivery_order_header SET CODE = 'code', platform_code='keason' WHERE id =10010101 OR id =10010102;
