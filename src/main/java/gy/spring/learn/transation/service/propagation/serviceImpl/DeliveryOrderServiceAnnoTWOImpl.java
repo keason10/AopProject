@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by yantao on 2017/4/4.
  */
 @Service
-public class DeliveryOrderServiceAnnoTwoImpl {
-    Logger logger = LoggerFactory.getLogger(DeliveryOrderServiceAnnoTwoImpl.class);
+public class DeliveryOrderServiceAnnoTWOImpl {
+    Logger logger = LoggerFactory.getLogger(DeliveryOrderServiceAnnoTWOImpl.class);
 
     @Autowired
     private DeliveryOrderHeaderDao dao;

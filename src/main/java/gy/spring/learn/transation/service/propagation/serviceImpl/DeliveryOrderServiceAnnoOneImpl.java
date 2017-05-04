@@ -20,7 +20,7 @@ public class DeliveryOrderServiceAnnoOneImpl {
     private DeliveryOrderHeaderDao dao;
 
     @Autowired
-    private DeliveryOrderServiceAnnoTwoImpl serviceAnnoTWO;
+    private DeliveryOrderServiceAnnoTWOImpl serviceAnnoTWO;
 
     public DeliveryOrderHeaderInfo selectById(Long id) {
         return dao.selectById(id);
