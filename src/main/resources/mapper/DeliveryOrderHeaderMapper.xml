@@ -19,4 +19,8 @@
     <update id="updateCodeById">
         update erp_tc.delivery_order_header set code=#{code} where id=#{id}
     </update>
+
+    <insert id="insertInfo" parameterType="DeliveryOrderHeaderInfo">
+        insert into  erp_tc.delivery_order_header(id,platform_code, code, create_date) values(#{id}, #{platformCode},#{code}, now());
+    </insert>
 </mapper>

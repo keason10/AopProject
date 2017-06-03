@@ -1,16 +1,14 @@
-package gy.spring.learn.transation.dao;
+package gy.spring.learn.transation.service;
 
 import gy.spring.learn.transation.dto.DeliveryOrderHeaderInfo;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
- * Created by yantao on 2017/4/4.
+ * Created by KEASON on 2017/6/3.
  */
-@Repository
-public interface DeliveryOrderHeaderDao {
+public interface DeliveryOrderServiceMethod {
     DeliveryOrderHeaderInfo selectById(@Param("id") Long id);
     Integer updatePlatformCodeById(@Param("id") Long id, @Param("platformCode") String platformCode);
     Integer updateCodeById(@Param("id") Long id, @Param("code") String code);

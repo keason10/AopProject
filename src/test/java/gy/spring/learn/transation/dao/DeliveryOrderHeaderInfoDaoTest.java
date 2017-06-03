@@ -22,7 +22,7 @@ public class DeliveryOrderHeaderInfoDaoTest {
 
     @Test
     public void getById() {
-        System.out.println(deliveryOrderHeaderDao.selectById(10010101L));
+        System.out.println(deliveryOrderHeaderDao.selectById(201706030001L));
     }
 
     @Test

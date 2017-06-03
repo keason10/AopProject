@@ -1,7 +1,0 @@
-#注意url的格式"jdbc:mysql://****：port"
-#通常报错：Caused by: java.sql.SQLException: No suitable driver
-host.url=jdbc:mysql://jconnftepkcy2.mysql.rds.aliyuncs.com:3306
-host.port=3306
-host.username=jusrx8fnuzzx
-host.password=Uyo6HNA85s4vCpuWWJRk
-host.driver=com.mysql.jdbc.Driver
