@@ -10,7 +10,8 @@
     <properties>
         <spring.version>4.3.7.RELEASE</spring.version>
         <spring.version.four.treee.seven>4.3.7.RELEASE</spring.version.four.treee.seven>
-        <mybatis.version>3.2.6</mybatis.version>
+        <mybatis.version>3.4.4</mybatis.version>
+        <mybatis.spring.version>1.3.1</mybatis.spring.version>
         <!-- log4j日志文件管理包版本 -->
         <logback.version>1.1.7</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
@@ -26,7 +27,7 @@
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-spring</artifactId>
-            <version>1.2.2</version>
+            <version>${mybatis.spring.version}</version>
         </dependency>
         <!-- 导入Mysql数据库链接jar包 -->
         <dependency>

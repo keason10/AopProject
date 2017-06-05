@@ -12,6 +12,28 @@
         select id,create_date,platform_code from erp_tc.delivery_order_header where id=#{id}
     </select>
 
+
+    <sql id="colums">${table}.id, ${table}.create_date, ${table}.platform_code</sql>
+    <sql id="fromc">
+         from <include refid="${include_target}"/>
+    </sql>
+    <sql id="sometable">
+        ${prefix}.delivery_order_header
+    </sql>
+    <select id="selectById1" parameterType="java.lang.Long" resultMap="ResultMap">
+        select
+        <include refid="colums">
+           <property name="table" value="delivery_order_header"/>
+        </include>
+        <!--属性值可以用于包含的refid属性（例如sometable）或者包含的字句里面的属性值（如：erp_tc），-->
+       <include refid="fromc">
+           <property name="prefix" value="erp_tc"/>
+           <property name="include_target" value="sometable"/>
+       </include>
+        where id=#{id}
+    </select>
+
+
     <update id="updatePlatformCodeById">
         update erp_tc.delivery_order_header set platform_code=#{platformCode} where id=#{id}
     </update>
@@ -21,6 +43,133 @@
     </update>
 
     <insert id="insertInfo" parameterType="DeliveryOrderHeaderInfo">
+        insert into  erp_tc.delivery_order_header(id,platform_code, code, create_date) values(#{info.id}, #{info.platformCode},#{info.code}, now());
+    </insert>
+
+    <insert id="insertInfo1" parameterType="DeliveryOrderHeaderInfo">
         insert into  erp_tc.delivery_order_header(id,platform_code, code, create_date) values(#{id}, #{platformCode},#{code}, now());
     </insert>
+
+    <!--注意此时用的是List，批量插入-->
+    <insert id="insertLisInfo" parameterType="java.util.List">
+        insert into  erp_tc.delivery_order_header(id,platform_code, code, create_date) values
+        <foreach index="index" item="info" collection="infoList" separator=",">
+            (#{info.id}, #{info.platformCode},#{info.code}, now())
+        </foreach> ;
+    </insert>
+
+    <!--注意此时用的是List 一条一条插入,这种方式貌似不行，不能直接把foreach用于整个sql语句-->
+    <insert id="insertLisInfo1" parameterType="java.util.List">
+        <foreach index="index" item="info" collection="infoList" open="" close="" separator=";">
+         insert into erp_tc.delivery_order_header(id,platform_code, code, create_date) values (#{info.id}, #{info.platformCode},#{info.code}, now())
+        </foreach>
+    </insert>
+
+    <update id="updateInfo" parameterType="DeliveryOrderHeaderInfo">
+        update  erp_tc.delivery_order_header
+        <set>
+            <if test="platformCode != null and platformCode !=''">
+                platform_code = #{platformCode},
+            </if>
+            <if test="code != null and code !=''">
+                code = #{code},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+    <update id="updateInfo3" parameterType="DeliveryOrderHeaderInfo">
+        update  erp_tc.delivery_order_header
+        <set>
+            <if test="info.platformCode != null and info.platformCode !=''">
+                platform_code = #{info.platformCode},
+            </if>
+            <if test="info.code != null and info.code !=''">
+                code = #{info.code},
+            </if>
+        </set>
+        where id=#{info.id}
+    </update>
+
+    <update id="updateInfo1">
+        update  erp_tc.delivery_order_header
+        <set>
+            <if test="info.platformCode != null and info.platformCode !=''">
+                platform_code = #{info.platformCode},
+            </if>
+            <if test="info.code != null and info.code !=''">
+                code = #{info.code},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="updateInfo2">
+        update  erp_tc.delivery_order_header
+        <set>
+            <if test="param2.platformCode != null and param2.platformCode !=''">
+                platform_code = #{param2.platformCode},
+            </if>
+            <if test="param2.code != null and param2.code !=''">
+                code = #{param2.code},
+            </if>
+        </set>
+        where id=#{param1}
+    </update>
+
+    <update id="updateListInfo">
+        update erp_tc.delivery_order_header
+        <set>
+            <trim prefix="code = case" suffix="end,">
+                <foreach collection="infoList" index="index" item="info">
+                    <if test="info.code != null and info.code != ''">
+                        when id =#{info.id} then #{info.code}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="platform_code = case" suffix="end,">
+                <foreach collection="infoList" index="index" item="info">
+                    <if test="info.platformCode != null and info.platformCode != ''">
+                       when id =#{info.id} then #{info.platformCode}
+                    </if>
+                </foreach>
+            </trim>
+        </set>
+        <where>
+            <foreach collection="infoList" index="index" item="info" separator="or" >
+                id =#{info.id}
+            </foreach>
+            and del=#{del}
+        </where>
+    </update>
+
+    <update id="updateListInfo2">
+        <foreach collection="infoList" index="index" item="info" separator=";">
+            update erp_tc.delivery_order_header
+                set code = #{info.code},
+                platform_code = #{info.platformCode}
+                where
+                del =#{del}
+                and id=#{info.id}
+        </foreach>
+    </update>
+
+    <update id="updateListInfo3">
+        <foreach collection="infoList" open="begin" close=";end;" index="index" item="info" separator=";">
+            update erp_tc.delivery_order_header
+            <set>
+                <if test="info.code != null and info.code != '' ">
+                    code = #{info.code},
+                </if>
+                <if test="info.platformCode != null and info.platformCode != '' ">
+                    platform_code = #{info.platformCode},
+                </if>
+            </set>
+            <where>
+                del =#{del}
+                and id=#{info.id}
+            </where>
+        </foreach>
+    </update>
 </mapper>

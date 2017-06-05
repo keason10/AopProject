@@ -12,6 +12,16 @@ public class DeliveryOrderHeaderInfo {
     private Long id;
     private String platformCode;
     private Date createDate;
+    private String code;
+
+    public DeliveryOrderHeaderInfo(Long id, String platformCode,  String code) {
+        this.id = id;
+        this.platformCode = platformCode;
+        this.code = code;
+    }
+
+    public DeliveryOrderHeaderInfo() {
+    }
 
     public Date getCreateDate() {
         return createDate;
@@ -37,12 +47,22 @@ public class DeliveryOrderHeaderInfo {
         this.platformCode = platformCode;
     }
 
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     @Override
     public String toString() {
         return "DeliveryOrderHeaderInfo{" +
                 "id=" + id +
                 ", platformCode='" + platformCode + '\'' +
                 ", createDate=" + createDate +
+                ", code='" + code + '\'' +
                 '}';
     }
 }
