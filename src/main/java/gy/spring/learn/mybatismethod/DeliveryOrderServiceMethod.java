@@ -1,5 +1,6 @@
 package gy.spring.learn.mybatismethod;
 
+import gy.spring.learn.mybatismethod.entity.DeliveryOrderStatusInfo;
 import gy.spring.learn.transation.dto.DeliveryOrderHeaderInfo;
 import org.apache.ibatis.annotations.Param;
 
@@ -29,4 +30,13 @@ public interface DeliveryOrderServiceMethod {
     Integer updateListInfo(Integer del, List<DeliveryOrderHeaderInfo > infoList);
     Integer updateListInfo2(Integer del, List<DeliveryOrderHeaderInfo > infoList);
     Integer updateListInfo3(Integer del, List<DeliveryOrderHeaderInfo > infoList);
+
+//    批量嵌套查询
+    List<DeliveryOrderHeaderInfo> listAllInfo(Long id);
+    List<DeliveryOrderHeaderInfo> listAllInfo1(Long id);
+    List<DeliveryOrderHeaderInfo> listAllInfo2(Long id);
+    List<DeliveryOrderHeaderInfo> listAllInfo3(Long id);
+
+    //更新状态字段
+    Integer updateDeliveryStatus(DeliveryOrderStatusInfo info);
 }

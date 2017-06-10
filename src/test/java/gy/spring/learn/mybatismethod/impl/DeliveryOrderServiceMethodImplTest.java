@@ -1,5 +1,7 @@
 package gy.spring.learn.mybatismethod.impl;
 
+import gy.spring.learn.mybatismethod.entity.DeliveryOrderStatusInfo;
+import gy.spring.learn.mybatismethod.entity.DeliveryStatus;
 import gy.spring.learn.transation.dto.DeliveryOrderHeaderInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -126,6 +128,35 @@ public class DeliveryOrderServiceMethodImplTest{
         list.add(new DeliveryOrderHeaderInfo(201706040005L,"UP20170604000503","UC20170604000503"));
         list.add(new DeliveryOrderHeaderInfo(201706040006L,"UP20170604000603","UC20170604000603"));
         serviceMethod.updateListInfo3(0,list);
+    }
+
+
+    //批量关联映射---头表：状态表（1:1）
+    @Test//resultMap 引用另外一个resultMap
+    public void listAllInfo() throws Exception {
+        serviceMethod.listAllInfo(201706040001L);
+    }
+    @Test///resultMap定义另外一个resultMap
+    public void listAllInfo1() throws Exception {
+        serviceMethod.listAllInfo1(201706040001L);
+    }
+
+    @Test//嵌套查询
+    public void listAllInfo2() throws Exception {
+        serviceMethod.listAllInfo2(201706040001L);
+    }
+
+    @Test//嵌套查询集合
+    public void listAllInfo3() throws Exception {
+        serviceMethod.listAllInfo3(201706040001L);
+    }
+
+    @Test//更新枚举字段
+    public void updateDeliveryStatus() throws Exception {
+        DeliveryOrderStatusInfo info = new DeliveryOrderStatusInfo();
+        info.setId(201706040001L);
+        info.setStatus(DeliveryStatus.DELIVERY_FAIL);
+        serviceMethod.updateDeliveryStatus(info);
     }
 
 }

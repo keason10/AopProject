@@ -30,8 +30,9 @@
     <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <property name="mapperLocations" value="classpath*:mapper/**/*.xml"/>
-        <property name="typeAliasesPackage" value="gy.spring.learn.transation.dto"/>
+        <!--<property name="mapperLocations" value="classpath*:mapper/**/*.xml"/>-->
+        <!--<property name="typeAliasesPackage" value="gy.spring.learn.transation.dto;gy.spring.learn.mybatismethod.entity"/>-->
+        <property name="configLocation" value="mybatis-config.xml"/>
     </bean>
 
     <!-- DAO接口所在包名，Spring会自动查找其下的类 -->

@@ -172,4 +172,125 @@
             </where>
         </foreach>
     </update>
+
+
+
+    <!--集合嵌套查询-->
+    <!--association中的colum 关联的是主表中的Id-->
+    <!--关联的嵌套结果 引用resultMap 的方式-->
+    <resultMap id="statusInfo" type="DeliveryOrderStatusInfo">
+        <result property="id" column="status_id"/>
+        <result property="intS" column="delivery_status"/>
+        <result property="status" column="e_delivery_status" javaType="gy.spring.learn.mybatismethod.entity.DeliveryStatus"/>
+    </resultMap>
+    <resultMap id="listAllInfo" type="DeliveryOrderHeaderInfoMy">
+        <result property="id" column="header_id"/>
+        <result property="code" column="code"/>
+        <result property="platformCode" column="platform_code"/>
+        <association property="statusInfo"  column="header_id" javaType="DeliveryOrderStatusInfo" resultMap="statusInfo"/>
+    </resultMap>
+
+    <!--关联的嵌套结果，直接嵌套resultMap的方式-->
+    <resultMap id="listAllInfo1" type="DeliveryOrderHeaderInfoMy">
+        <result property="id" column="header_id"/>
+        <result property="code" column="code"/>
+        <result property="platformCode" column="platform_code"/>
+        <association property="statusInfo"  column="header_id" javaType="DeliveryOrderStatusInfo">
+            <result property="id" column="status_id"/>
+            <result property="intS" column="delivery_status"/>
+        </association>
+    </resultMap>
+
+
+    <select id="listAllInfo" resultMap="listAllInfo">
+        SELECT
+          aa.`id` AS header_id,
+          aa.`code`,
+          aa.`platform_code`,
+          bb.`id` AS detail_id,
+          bb.pid,
+          cc.id AS status_id,
+          cc.`delivery_status`
+        FROM
+          erp_tc.`delivery_order_header` aa
+          INNER JOIN erp_tc.`delivery_order_detail` bb
+            ON aa.id = bb.`pid`
+          INNER JOIN erp_tc.`delivery_order_status` cc
+            ON aa.id = cc.id
+            WHERE aa.id=#{id}
+    </select>
+
+    <select id="listAllInfo1" resultMap="listAllInfo1">
+        SELECT
+        aa.`id` AS header_id,
+        aa.`code`,
+        aa.`platform_code`,
+        bb.`id` AS detail_id,
+        bb.pid,
+        cc.id AS status_id,
+        cc.`delivery_status`
+        FROM
+        erp_tc.`delivery_order_header` aa
+        INNER JOIN erp_tc.`delivery_order_detail` bb
+        ON aa.id = bb.`pid`
+        INNER JOIN erp_tc.`delivery_order_status` cc
+        ON aa.id = cc.id
+        WHERE aa.id=#{id}
+    </select>
+
+
+
+    <!--关联的嵌套查询-->
+    <!--column	来自数据库的类名,或重命名的列标签。这和通常传递给 resultSet.getString(columnName)方法的字符串是相同的。 column 注 意 : 要 处 理 复 合 主 键 , 你 可 以 指 定 多 个 列 名 通 过 column= ” {prop1=col1,prop2=col2} ” 这种语法来传递给嵌套查询语 句。这会引起 prop1 和 prop2 以参数对象形式来设置给目标嵌套查询语句。-->
+    <select id="selectStatus" resultMap="statusInfo">
+        select cc.id AS status_id, cc.`delivery_status`,cc.`delivery_status` as e_delivery_status from erp_tc.delivery_order_status cc where cc.id =#{id}
+    </select>
+    <resultMap id="listAllInfo2" type="DeliveryOrderHeaderInfoMy">
+        <result property="id" column="header_id"/>
+        <result property="code" column="code"/>
+        <result property="platformCode" column="platform_code"/>
+        <association property="statusInfo"  column="{id=header_id}" javaType="DeliveryOrderStatusInfo" select="selectStatus"/>
+    </resultMap>
+    <select id="listAllInfo2" resultMap="listAllInfo2">
+        SELECT
+        aa.`id` AS header_id,
+        aa.`code`,
+        aa.`platform_code`
+        FROM  erp_tc.`delivery_order_header` aa
+        WHERE aa.id=#{id}
+    </select>
+
+    <!--关联的集合嵌套查询-->
+    <!--column	来自数据库的类名,或重命名的列标签。这和通常传递给 resultSet.getString(columnName)方法的字符串是相同的。 column 注 意 : 要 处 理 复 合 主 键 , 你 可 以 指 定 多 个 列 名 通 过 column= ” {prop1=col1,prop2=col2} ” 这种语法来传递给嵌套查询语 句。这会引起 prop1 和 prop2 以参数对象形式来设置给目标嵌套查询语句。-->
+    <resultMap id="detailInfo" type="DeliveryOrderDetailInfo">
+        <result property="id" column="detail_id"/>
+        <result property="note" column="note"/>
+        <result property="pid" column="pid"/>
+    </resultMap>
+
+    <select id="selectDetail" resultMap="detailInfo">
+        select bb.`id` AS detail_id,
+        bb.pid,
+        bb.note
+        from erp_tc.delivery_order_detail bb where bb.pid =#{id}
+    </select>
+    <resultMap id="listAllInfo3" type="DeliveryOrderHeaderInfoMy">
+        <result property="id" column="header_id"/>
+        <result property="code" column="code"/>
+        <result property="platformCode" column="platform_code"/>
+        <association property="statusInfo"  column="{id=header_id}" javaType="DeliveryOrderStatusInfo" select="selectStatus"/>
+        <collection property="list" javaType="java.util.List" column="{id=header_id}" ofType="DeliveryOrderDetailInfo" select="selectDetail"/>
+    </resultMap>
+    <select id="listAllInfo3" resultMap="listAllInfo3">
+        SELECT
+        aa.`id` AS header_id,
+        aa.`code`,
+        aa.`platform_code`
+        FROM  erp_tc.`delivery_order_header` aa
+        WHERE aa.id=#{id}
+    </select>
+
+    <update id="updateDeliveryStatus" parameterType="DeliveryOrderStatusInfo">
+        update erp_tc.delivery_order_status set delivery_status =#{status} where id =#{id}
+    </update>
 </mapper>

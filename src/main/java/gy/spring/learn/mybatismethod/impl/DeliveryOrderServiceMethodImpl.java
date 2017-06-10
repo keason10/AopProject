@@ -1,5 +1,6 @@
 package gy.spring.learn.mybatismethod.impl;
 
+import gy.spring.learn.mybatismethod.entity.DeliveryOrderStatusInfo;
 import gy.spring.learn.transation.dao.DeliveryOrderHeaderDao;
 import gy.spring.learn.transation.dto.DeliveryOrderHeaderInfo;
 import gy.spring.learn.mybatismethod.DeliveryOrderServiceMethod;
@@ -76,4 +77,30 @@ public class DeliveryOrderServiceMethodImpl implements DeliveryOrderServiceMetho
     public Integer updateListInfo3(Integer del, List<DeliveryOrderHeaderInfo> infoList) {
         return dao.updateListInfo3(del,infoList);
     }
+
+    @Override
+    public List<DeliveryOrderHeaderInfo> listAllInfo(Long id) {
+        return dao.listAllInfo1(id);
+    }
+
+    @Override
+    public List<DeliveryOrderHeaderInfo> listAllInfo1(Long id) {
+        return dao.listAllInfo1(id);
+    }
+
+    @Override
+    public List<DeliveryOrderHeaderInfo> listAllInfo2(Long id) {
+        return dao.listAllInfo2(id);
+    }
+
+    @Override
+    public List<DeliveryOrderHeaderInfo> listAllInfo3(Long id) {
+        return dao.listAllInfo3(id);
+    }
+
+    @Override
+    public Integer updateDeliveryStatus(DeliveryOrderStatusInfo info) {
+        return dao.updateDeliveryStatus(info);
+    }
+
 }

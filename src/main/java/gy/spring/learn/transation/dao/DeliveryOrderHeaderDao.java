@@ -1,5 +1,6 @@
 package gy.spring.learn.transation.dao;
 
+import gy.spring.learn.mybatismethod.entity.DeliveryOrderStatusInfo;
 import gy.spring.learn.transation.dto.DeliveryOrderHeaderInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -40,4 +41,11 @@ public interface DeliveryOrderHeaderDao {
     Integer updateListInfo2(@Param("del")Integer del, @Param("infoList") List<DeliveryOrderHeaderInfo > infoList);
     Integer updateListInfo3(@Param("del")Integer del, @Param("infoList") List<DeliveryOrderHeaderInfo > infoList);
 
+
+    List<DeliveryOrderHeaderInfo> listAllInfo(@Param("id") Long Id);
+    List<DeliveryOrderHeaderInfo> listAllInfo1(@Param("id") Long Id);
+    List<DeliveryOrderHeaderInfo> listAllInfo2(@Param("id") Long Id);
+    List<DeliveryOrderHeaderInfo> listAllInfo3(@Param("id") Long Id);
+
+    Integer updateDeliveryStatus(DeliveryOrderStatusInfo info);
 }
