@@ -41,5 +41,6 @@
         <property name="dataSource" ref="dataSource"/>
         <qualifier value="txTwo"/>
     </bean>
-    <tx:annotation-driven/>
+    <!-- enable the configuration of transactional behavior based on annotations -->
+    <tx:annotation-driven transaction-manager="transactionManager"/><!-- a PlatformTransactionManager is still required -->
 </beans>
