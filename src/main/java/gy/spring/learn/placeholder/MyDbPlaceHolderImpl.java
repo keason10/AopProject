@@ -2,20 +2,27 @@ package gy.spring.learn.placeholder;
 
 import gy.spring.learn.placeholder.dao.DbPlaceholder;
 import gy.spring.learn.placeholder.dto.DbProperty;
+import gy.spring.learn.placeholder.jdbc.JDBCUtil;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
+import org.springframework.beans.factory.support.BeanDefinitionReader;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.CollectionUtils;
 import java.io.IOException;
-import java.util.List;
-import java.util.Properties;
+import java.sql.*;
+import java.util.*;
 
 /**
  * Created by PicaHelth on 2017/7/9.
  */
 public class MyDbPlaceHolderImpl extends PropertyPlaceholderConfigurer {
-    @Autowired
-    private DbPlaceholder dbPlaceholder;
-
     protected Properties mergeProperties() throws IOException {
         Properties result = new Properties();
         if (this.localOverride) {
@@ -39,7 +46,9 @@ public class MyDbPlaceHolderImpl extends PropertyPlaceholderConfigurer {
     }
 
     private void addMyProperties( Properties result) {
-        List<DbProperty> list = dbPlaceholder.getAllProperties();
+        Connection connection = JDBCUtil.getConnection(result);
+        String sql = "select * from p_db_properties";
+        List<DbProperty> list = getAll(connection,sql);
         if (CollectionUtils.isEmpty(list)) {
             return ;
         }
@@ -47,5 +56,26 @@ public class MyDbPlaceHolderImpl extends PropertyPlaceholderConfigurer {
             result.put(prop.getDbkey(),prop.getDbvalue());
         }
 
+    }
+
+    private List<DbProperty> getAll(Connection conn,String sql) {
+        PreparedStatement pstmt;
+        List<DbProperty> list = new ArrayList<>();
+        try {
+            Map map = new HashMap<String,Integer>();
+            pstmt = (PreparedStatement)conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                DbProperty dbProperty= new DbProperty();
+                dbProperty.setDbkey(rs.getString("dbkey"));
+                dbProperty.setDbvalue(rs.getString("dbvalue"));
+                dbProperty.setDbenv(rs.getString("dbenv"));
+                list.add(dbProperty);
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
     }
 }

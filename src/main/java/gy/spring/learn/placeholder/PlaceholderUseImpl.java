@@ -11,19 +11,37 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PlaceholderUseImpl {
-    @Autowired
-    private DbPlaceholder dbPlaceholder;
-
     @Value("${id}")
     private String id;
 
     @Value("${name}")
     private String name;
 
-    public void shouMyDbString() {
-        System.out.println("id");
-        System.out.println(JSON.toJSONString(dbPlaceholder.getAllProperties()));
-        System.out.println(this.id);
+    public String getId() {
+        return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void shouMyDbString() {
+        System.out.println(this.toString());
+    }
+
+    @Override
+    public String toString() {
+        return "PlaceholderUseImpl{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
