@@ -14,7 +14,9 @@ public class StudentAction {
         System.out.println("before show");
     }
 
-
+    public void showThrows() {
+        System.out.println("throws");
+    }
     /**
      *
      * @param pjp

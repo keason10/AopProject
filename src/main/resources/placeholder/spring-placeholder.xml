@@ -11,7 +11,6 @@
                 <value>classpath:placeholder/placeholderDb.properties</value>
             </list>
         </property>
-
     </bean>
 
     <bean id ="dataSource" class="org.apache.commons.dbcp.BasicDataSource">

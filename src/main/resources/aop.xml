@@ -10,6 +10,7 @@
             <aop:before method="showAfter" pointcut-ref="point"/>
             <aop:after method="showBefore" pointcut-ref="point"/>
             <aop:around method="showAround" pointcut-ref="point"/>
+            <aop:after-throwing method="showThrows" pointcut-ref="point"/>
         </aop:aspect>
     </aop:config>
     <bean id="studentAction" class="gy.spring.learn.aop.StudentAction"/>

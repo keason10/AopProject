@@ -23,7 +23,8 @@ public class StudentCommenTest extends AbstractJUnit4SpringContextTests {
 
      */
     @Autowired
-    StudentCommen studentCommen;
+    Student studentCommen;
+
 
     @Test
     public void show(){
@@ -31,5 +32,11 @@ public class StudentCommenTest extends AbstractJUnit4SpringContextTests {
         studentCommen.setName("1");
         System.out.println("111");
     }
+
+    @Test
+    public void show2(){
+        studentCommen.setId(1L);
+    }
+
 
 }
