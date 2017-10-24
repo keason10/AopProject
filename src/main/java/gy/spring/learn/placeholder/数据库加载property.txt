@@ -1,0 +1,33 @@
+db_property
+id
+key
+value
+					type：
+						虚拟字段，不存，放前端校验，系统级别（全局的，系统的，项目的） type+type_value 相同的 key 不能重复。
+order_val:系统简称
+order 如何算
+status:启用非启用配置。
+
+越详细的配置会覆盖越粗犷的配置。
+
+type:		type_value
+全局的 		
+100			All 100001
+
+
+系统的		
+200			saas-web 200001
+200			saas-api 200002
+200			admin	 200003
+200			wechat	 200004
+			
+项目的）	cms		300001
+300			dev		300002
+300			report	300003
+300			kf		300004
+
+
+select key,group_concat(value order by order_val desc  SEPARATOR '@#$') from db_property where order_val in (100001,200003,300004) and value is not null group by key
+
+java  对分隔符分组，取定义一个作为property的值。
+			
