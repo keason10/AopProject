@@ -1,19 +1,8 @@
 package gy.spring.learn.placeholder;
 
-import gy.spring.learn.placeholder.dao.DbPlaceholder;
 import gy.spring.learn.placeholder.dto.DbProperty;
 import gy.spring.learn.placeholder.jdbc.JDBCUtil;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
-import org.springframework.beans.factory.support.BeanDefinitionReader;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.CollectionUtils;
 import java.io.IOException;
 import java.sql.*;

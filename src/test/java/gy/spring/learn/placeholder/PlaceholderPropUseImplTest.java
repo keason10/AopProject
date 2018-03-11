@@ -6,6 +6,7 @@ import org.springframework.context.support.AbstractXmlApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.testng.annotations.Test;
 
+import java.util.Date;
 import java.util.Locale;
 
 import static com.sun.prism.shape.ShapeRep.InvalidationType.LOCATION;
@@ -21,7 +22,8 @@ public class PlaceholderPropUseImplTest {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:placeholder/spring-placeholderProp.xml");
         MessageSource messageSource = (MessageSource) applicationContext.getBean("messageSource");
         while (true) {
-            System.out.println(messageSource.getMessage("test.velue",new Object[0], Locale.CHINA));
+            messageSource = (MessageSource) applicationContext.getBean("messageSource");
+            System.out.println(new Date()+"     "+messageSource.getMessage("test.velue",new Object[0], Locale.US));
             Thread.currentThread().sleep(5000);
         }
     }

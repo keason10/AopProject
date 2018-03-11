@@ -5,13 +5,16 @@
        xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
     <context:component-scan base-package="gy.spring.learn.placeholder"/>
+
+    <!--注意此时使用的是包，带逗点形式-->
     <bean id="messageSource"
           class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basenames">
-            <array>
+            <list>
                 <value>classpath:placeholder/placeholderProp</value>
-            </array>
+            </list>
         </property>
         <property name="cacheSeconds" value="3" />
+        <property name="concurrentRefresh" value="true"/>
     </bean>
 </beans>

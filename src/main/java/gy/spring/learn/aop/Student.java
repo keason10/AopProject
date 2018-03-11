@@ -15,6 +15,7 @@ public class Student {
     }
 
     public void setId(Long id) {
+        int  i = 1/0;
         this.id = id;
     }
 
