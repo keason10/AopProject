@@ -153,6 +153,8 @@
             <version>${logback.version}</version>
         </dependency>
 
+        <!--quartz 定时任务-->
+
     </dependencies>
     <build>
         <finalName>keason.spring</finalName>
